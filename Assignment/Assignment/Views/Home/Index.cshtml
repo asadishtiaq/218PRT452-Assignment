@@ -1,0 +1,58 @@
+﻿@model PointsViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<table class="model-state">
+    @foreach (var item in ViewContext.ViewData.ModelState)
+    {
+        if (item.Value.Errors.Any())
+        {
+            <tr class="alert-danger">
+                <td><b>@item.Key</b></td>
+                <td>@((item.Value == null || item.Value == null) ? "<null>" : item.Value.RawValue)</td>
+                <td>@(string.Join("; ", item.Value.Errors.Select(x => x.ErrorMessage)))</td>
+            </tr>
+        }
+    }
+</table>
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-xs-12 col-md-5 offset-md-1">
+            <label class="label">First coordinate</label>
+            @Html.EditorFor(m => m.FirstPoint, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+        <div class="col-xs-12 col-md-5">
+            <label class="label">Second coordinate</label>
+            @Html.EditorFor(m => m.SecondPoint, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-md-5 offset-md-1">
+            <input type="submit" value="Calculate" class="btn btn-primary mt-3" />
+        </div>
+    </div>
+    @if (Model != null)
+    {
+        <div class="row">
+            <div class="col-xs-12 col-md-5 offset-md-1">
+                <ul>
+                    <li>
+                        <label class="label">Gradient</label>
+                        <span class="alert-success">@Model.Gradient</span>
+                    </li>
+                    <li>
+                        <label class="label">Distance</label>
+                        <span class="alert-success">@Model.Distance</span>
+                    </li>
+                    <li>
+                        <label class="label">Equation</label>
+                        <span class="alert-success">@Model.Equation</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    }
+
+}
